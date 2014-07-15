@@ -1,0 +1,32 @@
+@(message: String)
+
+<header>   
+   <h1>Push HTTP Demo App</h1>
+</header>
+ 
+ <article class = "rolloinicial">
+   <p>
+        Esta aplicación es una versión inicial...
+   </p>
+          
+ </article>
+
+@*************** 
+@helper.form(action = routes.Application.sendStuff){
+	<input type="submit" value="Login" />
+	} 
+****************@ 
+
+
+    <p class="buttons">      
+    <a href="@routes.Application.sendStuff">Send Simple Post Now!</a>
+    <p> 
+
+    <p class="buttons">      
+    <a href="@routes.Application.sendJsonStuff">Send Json Post Now!</a>
+    <p> 
+    
+    <p class="buttons">      
+    <a href="@routes.Application.proxy">Send Proxy Post Now!</a>
+    <p> 
+
