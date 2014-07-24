@@ -7,6 +7,7 @@ GET     /                           controllers.Application.index
 #GET      /postt                    controllers.Application.sendStuff2
 GET     /SimplePost                 controllers.Application.sendStuff
 GET     /JsonPost                   controllers.Application.sendJsonStuff
+GET     /PrintJson                  controllers.Application.printJsonStuff
 GET     /Proxy						controllers.Application.proxy
 
 

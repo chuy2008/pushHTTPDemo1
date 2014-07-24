@@ -84,14 +84,57 @@ object Application extends Controller
         futureRes
         
    }
+
+// authorization => key=AIzaSyBAQQ0GGy9kysxcYmWjYGBD1jabYc3Arr0
+// deviceID = 3534DA02F3DC0BF0
+// ProjectID = eco-tract-621
+// Project Number: 885693012077  
   
   def sendJsonStuff = Action
   {
-     val url = "http://10.0.0.2:9000/receiveSimple"
-     var gg = Json.toJson(Map("Cel" -> Seq("88"), "Code" -> Seq("99")))  
+//       val url = "http://10.0.0.2:9000/receiveSimple"
+//       val url = "http://10.0.0.2:9000/receiveJson"
+       val url = "https://android.googleapis.com/gcm/send"
+//     var gg = Json.toJson(Map("registration_ids" -> Seq("11", "22"), "Cel" -> Seq("88"), "Code" -> Seq("99"))) 
+//     var gg = Json.toJson(Map("registration_ids" -> Seq("53ce8c55e4b0c27c00397c79")))
+       val tokenID = "APA91bEM8hd5vkdYNRduGxFMrZQvse-aHoxZfIkU_15Or88fl_nLXZ_auGASMvYD6FY2aBbrp0FNlcn3r6te_aHsKi9XvFuJosCR5V0vpvoPTlfEG_PHGKpjVJuAWHMZxnNygxvq4-OszcNzoUavv84bp5Eju509MQ"
+/*
+ *    all this commented lines work correctly, at least from the compiler point of view
+ *    I am not sure it GCM will process them correctly
+ */
+
+       var gg = Json.toJson(Map("registration_ids" -> Seq(tokenID)))         
+       var gg2 = Json.toJson(Map("registration_ids" -> Seq(tokenID), "data" -> Seq("xxxx")))
+       var gg3 = Json.toJson(Map("ww" -> Json.toJson("xxxx")))     
+         
+       var gg5 = Json.toJson(Map("registration_ids" -> Seq(Json.toJson(tokenID)), 
+                                "data" -> Seq(Json.toJson(Map("ww" -> Json.toJson("xxxx"))))))
+
+       var gg4 = Json.obj(
+                    "registration_ids" -> tokenID,
+                    "data" -> Json.obj("code" -> "xxxx")       
+                         )                         
+/*                                
+       var hh = Json.obj( { "data": {
+                            "score": "5x1",
+                            "time": "15:10")
+                          },
+                  "registration_ids": ["4", "8", "15", "16", "23", "42"]
+                })
+ */
+                                
+//                                                      Seq(Json.toJson(Map("code" -> "xxxx")))))
+
+/*
+ * deviceId =    357420052296083;40e83dd058500f67
+ * token = 
+ * APA91bEM8hd5vkdYNRduGxFMrZQvse-aHoxZfIkU_15Or88fl_nLXZ_auGASMvYD6FY2aBbrp0FNlcn3r6te_aHsKi9XvFuJosCR5V0vpvoPTlfEG_PHGKpjVJuAWHMZxnNygxvq4-OszcNzoUavv84bp5Eju509MQ       
+ *  
+ */         
      Async
      {
-        WS.url(url).post(gg).map(response => 
+        WS.url(url).withHeaders("Authorization" -> "key=AIzaSyDNvfQmHGfMttQaajp-KLR_89Cm7lApZO0").post(gg).map(
+            response => 
         {
            val contentType = response.header("Content-Type").getOrElse("text/plain")
            val asStream = response.ahcResponse.getResponseBodyAsStream
@@ -100,6 +143,60 @@ object Application extends Controller
         })
      }  
   }
+
+  
+  def printJsonStuff = Action
+  {
+//       val url = "http://10.0.0.2:9000/receiveSimple"
+//       val url = "http://10.0.0.2:9000/receiveJson"
+//       val url = "https://android.googleapis.com/gcm/send"
+//     var gg = Json.toJson(Map("registration_ids" -> Seq("11", "22"), "Cel" -> Seq("88"), "Code" -> Seq("99"))) 
+//     var gg = Json.toJson(Map("registration_ids" -> Seq("53ce8c55e4b0c27c00397c79")))
+//       val tokenID = "APA91bEM8hd5vkdYNRduGxFMrZQvse-aHoxZfIkU_15Or88fl_nLXZ_auGASMvYD6FY2aBbrp0FNlcn3r6te_aHsKi9XvFuJosCR5V0vpvoPTlfEG_PHGKpjVJuAWHMZxnNygxvq4-OszcNzoUavv84bp5Eju509MQ"
+/*
+ *    all this commented lines work correctly, at least from the compiler point of view
+ *    I am not sure it GCM will process them correctly
+ */
+
+       var gg1 = Json.toJson(Map("registration_ids" -> Seq("5555")))
+       println("Application scala routine, line 162, gg1 = " + Json.stringify(gg1))
+       var gg2 = Json.toJson(Map("registration_ids" -> Seq("5555"), "data" -> Seq("xxxx")))
+       println("Application scala routine, line 164, gg2 = " + Json.stringify(gg2))
+       var gg3 = Json.toJson(Map("ww" -> Json.toJson("xxxx")))     
+       println("Application scala routine, line 166, gg3 = " + Json.stringify(gg3))  
+       var gg4 = Json.toJson(Map("registration_ids" -> Seq(Json.toJson("5555")), 
+                                "data" -> Seq(Json.toJson(Map("ww" -> Json.toJson("xxxx"))))))
+       println("Application scala routine, line 169, gg4 = " + Json.stringify(gg4))
+/*
+ *    gg5 below is the good one!
+ */
+       
+       var gg5 = Json.obj(
+                    "registration_ids" -> Seq("5555"),
+                    "data" -> Json.obj("code" -> "xxxx")       
+                         )
+       println("Application scala routine, line 174, gg5 = " + Json.stringify(gg5))
+       
+      Ok("hullo")
+/*                                
+       var hh = Json.obj( { "data": {
+                            "score": "5x1",
+                            "time": "15:10")
+                          },
+                  "registration_ids": ["4", "8", "15", "16", "23", "42"]
+                })
+ */
+                                
+//                                                      Seq(Json.toJson(Map("code" -> "xxxx")))))
+
+/*
+ * deviceId =    357420052296083;40e83dd058500f67
+ * token = 
+ * APA91bEM8hd5vkdYNRduGxFMrZQvse-aHoxZfIkU_15Or88fl_nLXZ_auGASMvYD6FY2aBbrp0FNlcn3r6te_aHsKi9XvFuJosCR5V0vpvoPTlfEG_PHGKpjVJuAWHMZxnNygxvq4-OszcNzoUavv84bp5Eju509MQ       
+ *  
+ */         
+
+  }  
   
 }
         
